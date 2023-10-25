@@ -1,25 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import Layout from './client/components/Layout/Layout/Layout';
+import { ThemeProvider } from 'styled-components';
+import { Routes , Route } from 'react-router-dom';
+import { createColorTheme } from './styles/theme';
+import { userRoutes } from './client/routes/userRoutes';
+import MainPage from './client/pages/MainPage/MainPage';
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from './firebaseConfig';
+import { useTypedSelector } from './store/Hooks/useTypedSelector';
+import { useActions } from './store/Hooks/useActions';
+import { auth } from './firebaseConfig';
+import PrivateRoute from './client/routes/PrivateRoute';
 
 function App() {
+  const colorTheme = createColorTheme();
+  const { authorizeUser } = useActions();
+  const user = auth.currentUser;
+  
+  initializeApp(firebaseConfig);
+
+  useEffect(() => {
+    authorizeUser()
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <ThemeProvider theme = {colorTheme}>
+          <Routes>
+            <Route path='/' element={<Layout />}>
+              <Route index element={<MainPage />}/>
+              {userRoutes.map(({id, path, Component, title, strict}) => {
+              return (
+                <Route key={id} path={path} element={
+                  !strict ? <Component /> : <PrivateRoute> <Component /></PrivateRoute>
+                }/>
+              );
+            })}
+            </Route>
+          </Routes>
+      </ThemeProvider>
+      
   );
 }
 
