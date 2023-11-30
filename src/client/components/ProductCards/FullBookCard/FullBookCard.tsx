@@ -3,13 +3,14 @@ import { useParams } from 'react-router-dom';
 import Title from '../../TextComponents/Title/Title';
 import { IconButton , Rating } from '@mui/material';
 import { IBookInfo , IProduct } from '../../../../store/types';
-import TabBar from '../../TabBar/TabBar';
+import TabBar from './TabBar/TabBar';
 import CustomButton from '../../Buttons/CustomButton/CustomButton';
+import { useActions } from '../../../../store/Hooks/useActions';
+import { useTypedSelector } from '../../../../store/Hooks/useTypedSelector';
+import { useMediaQueries } from '../../../hooks/useMediaQuery';
 import { CardWrapper , ImageBlock , ProductImage , ProductTitle , FavsButton , CardContent , InfoBlock , 
     PriceRatingInfo , ProductPrice , ProductRating , ProductInfo , ProductInfoCategory , 
     CategoryName , CategoryValue , MoreButton , ProductButtons, PreviewBookButton , HeartOutlined , HeartFilled } from './styles';
-import { useActions } from '../../../../store/Hooks/useActions';
-import { useTypedSelector } from '../../../../store/Hooks/useTypedSelector';
 
 interface IFullBookCardProps {
     book: IBookInfo,
@@ -20,6 +21,7 @@ const FullBookCard: FC<IFullBookCardProps> = ({ book }) => {
     const isFavourite = !!favouriteBooks.find((item) => item.isbn13 === book.isbn13);
     const inCartProducts = useTypedSelector(state => state.cart.inCartProducts);
     const isInCart = !!inCartProducts.find((item) => item.isbn13 === book.isbn13);
+    const { mobile , tablet , laptop } = useMediaQueries();
     
     const { addToFavs , removeFromFavs , openPopup , getPopupInfo , addToViewed , addToCart } = useActions();
 
@@ -42,7 +44,9 @@ const FullBookCard: FC<IFullBookCardProps> = ({ book }) => {
 
     return (
         <CardWrapper>
-            <ProductTitle><Title variant='h1'>{book.title}</Title></ProductTitle>
+            <ProductTitle>
+                { mobile ? <Title variant='h1'>{book.title}</Title> : <Title variant='h2'>{book.title}</Title> }
+            </ProductTitle>
             <CardContent>
                 <ImageBlock>
                     <ProductImage src={book.image}/>                   
@@ -77,8 +81,6 @@ const FullBookCard: FC<IFullBookCardProps> = ({ book }) => {
                             <CategoryName>Pages</CategoryName>
                             <CategoryValue> {book.pages} </CategoryValue>
                         </ProductInfoCategory>
-
-                        <MoreButton>More details</MoreButton>
                     </ProductInfo>
                     
                     <ProductButtons>

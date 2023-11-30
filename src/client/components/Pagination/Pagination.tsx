@@ -6,7 +6,7 @@ interface IPaginationProps {
     count: number,
     page?: number,
     onBtnClick: (event:any, page:number) => void, 
-}
+};
 
 const PaginationBar: FC<IPaginationProps> = ({
     count, 
@@ -15,7 +15,7 @@ const PaginationBar: FC<IPaginationProps> = ({
 }) => {
     return (
         <PaginationWrapper>
-            <Pagination size='large' count={count} page={page} onChange={onBtnClick} />
+            <Pagination size='large' count={count} page={page} onChange={onBtnClick}/>
         </PaginationWrapper>
     );
 };

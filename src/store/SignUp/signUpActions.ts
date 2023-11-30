@@ -2,32 +2,27 @@ import { baseActionType, baseActionTypeWithPayload } from "../types";
 import { UserCredential } from "firebase/auth";
 
 export enum actionTypesEnum {
-    SIGN_UP = 'SIGN_UP',
+    SIGN_UP_SUCCESS = 'SIGN_UP',
+    SIGN_UP_FAIL = 'SIGN_UP_FAIL',
     RESET_SIGN_UP_STATUS = 'RESET_SIGN_UP_STATUS',
-    SHOW_SIGN_UP_ERROR_MESSAGE = 'SHOW_SIGN_UP_ERROR_MESSAGE',
-    CLEAR_SIGN_UP_ERROR_MESSAGE = 'CLEAR_SIGN_UP_ERROR_MESSAGE',
 };
 
 interface ISignUpActions {
-    signUpSuccess: (responseData: UserCredential) => baseActionTypeWithPayload<actionTypesEnum.SIGN_UP, UserCredential>,
+    signUpSuccess: (responseData: UserCredential) => baseActionTypeWithPayload<actionTypesEnum.SIGN_UP_SUCCESS, UserCredential>,
+    signUpFail: (error: string) => baseActionTypeWithPayload<actionTypesEnum.SIGN_UP_FAIL, string>,
     resetSignUpStatus: () => baseActionType<actionTypesEnum.RESET_SIGN_UP_STATUS>,
-    showSignUpErrorMessage: (error: string) => baseActionTypeWithPayload<actionTypesEnum.SHOW_SIGN_UP_ERROR_MESSAGE, string>,
-    clearSignUpErrorMessage: () => baseActionType<actionTypesEnum.CLEAR_SIGN_UP_ERROR_MESSAGE>,
 };
 
 export const signUpActions: ISignUpActions = {
     signUpSuccess: (responseData: UserCredential) => ({
-        type: actionTypesEnum.SIGN_UP,
+        type: actionTypesEnum.SIGN_UP_SUCCESS,
         payload: responseData,
+    }),
+    signUpFail: (error: string) => ({
+        type: actionTypesEnum.SIGN_UP_FAIL,
+        payload: error,
     }),
     resetSignUpStatus: () => ({
         type: actionTypesEnum.RESET_SIGN_UP_STATUS,
-    }),
-    showSignUpErrorMessage: (error: string) => ({
-        type: actionTypesEnum.SHOW_SIGN_UP_ERROR_MESSAGE,
-        payload: error,
-    }),
-    clearSignUpErrorMessage: () => ({
-        type: actionTypesEnum.CLEAR_SIGN_UP_ERROR_MESSAGE,
     }),
 };

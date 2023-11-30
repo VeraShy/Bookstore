@@ -7,9 +7,9 @@ interface IRouteProps {
 };
 
 const PrivateRoute: FC<IRouteProps> = ({children}) => {
-    const { isSignedIn } = useTypedSelector(state => state.session);
+    const { isSignedIn } = useTypedSelector(state => state.signIn);
 
-    return isSignedIn ? children : <Navigate to='/sign-up'></Navigate>
+    return isSignedIn ? children : <Navigate to='/registration'></Navigate>
 };
 
 export default PrivateRoute;

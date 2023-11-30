@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { Rating , IconButton } from '@mui/material';
 import { useTypedSelector } from '../../../../store/Hooks/useTypedSelector';
 import { useActions } from '../../../../store/Hooks/useActions';
-import { CardWrapper , ImageBlock , ProductImage , InfoBlock , ProductTitle , ProductDescription , 
+import { useMediaQueries } from '../../../hooks/useMediaQuery';
+import { CardWrapper , ImageBlock , ProductImage , FavsButton, InfoBlock , ProductTitle , ProductDescription , 
     PriceRatingInfo , ProductPrice , ProductRating , LikeBlock , HeartFilled , HeartOutlined} from './styles';
 
 const FavouriteCard: FC<{ product: IProduct }> = ({ product }) => {
@@ -15,6 +16,7 @@ const FavouriteCard: FC<{ product: IProduct }> = ({ product }) => {
     const isFavourite = !!favouriteBooks.find((book) => book.isbn13 === product.isbn13);
     const book = favouriteBooks.find((book) => book.isbn13 === product.isbn13);
     const { addToFavs , removeFromFavs } = useActions();
+    const { mobile , tablet , laptop } = useMediaQueries();
 
     const handleAddToFavs = () => {
         isFavourite ? removeFromFavs(book!) : addToFavs(book!);
@@ -24,6 +26,13 @@ const FavouriteCard: FC<{ product: IProduct }> = ({ product }) => {
         <CardWrapper>
             <ImageBlock>
                 <ProductImage src={product.image}/>
+                {!(mobile) && (
+                    <FavsButton>
+                        <IconButton onClick={handleAddToFavs}>
+                            {isFavourite ? <HeartFilled />: <HeartOutlined />}                   
+                        </IconButton>
+                    </FavsButton> 
+                )}
             </ImageBlock>
 
             <InfoBlock>
@@ -39,11 +48,15 @@ const FavouriteCard: FC<{ product: IProduct }> = ({ product }) => {
                 </PriceRatingInfo>
             </InfoBlock>
 
-            <LikeBlock>
-                <IconButton onClick={handleAddToFavs}>
-                    {isFavourite ? <HeartFilled />: <HeartOutlined />}
-                </IconButton>
-            </LikeBlock>
+            {mobile && (
+                <LikeBlock>
+                    <IconButton onClick={handleAddToFavs}>
+                        {isFavourite ? <HeartFilled />: <HeartOutlined />}
+                    </IconButton>
+                </LikeBlock>
+            ) }
+
+
             
         </CardWrapper>
     );

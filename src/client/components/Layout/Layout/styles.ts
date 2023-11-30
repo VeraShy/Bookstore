@@ -7,4 +7,15 @@ export const ContentWrapper = styled('div') `
     height: 100%;
     margin: 104px auto 0 auto;
     padding: 0 15px;
+
+    @media (max-width: 1150px) {
+        width: 100%;
+        padding: 0 40px;
+    };
+
+    @media (max-width: 580px) {
+        width: 100%;
+        padding: 0 24px;
+    };
 `
+

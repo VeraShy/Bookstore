@@ -7,9 +7,10 @@ import { bookPreviewReducer } from "./BookPreview/bookPreviewReducer";
 import { cartReducer } from "./Cart/cartReducer";
 import { paginationReducer } from "./Pagination/paginationReducer";
 import { signUpReducer } from "./SignUp/signUpReducer";
-import { userSessionReducer } from "./UserSession/userSessionReducer";
-import { errorsReducer } from "./Errors/errorsReducer";
+import { userAccountReducer } from "./UserAccount/userAccountReducer";
 import { loadState , saveState } from "../localStorage";
+import { signInReducer } from "./SignIn/signInReducer";
+import { searchReducer } from "./Search/searchReducer";
 
 const rootReducer = combineReducers({
     products: productsReducer,
@@ -18,8 +19,9 @@ const rootReducer = combineReducers({
     cart: cartReducer,
     pagination: paginationReducer,
     signUp: signUpReducer,
-    session: userSessionReducer,
-    errors: errorsReducer,
+    signIn: signInReducer,
+    account: userAccountReducer,
+    search: searchReducer,
 });
 
 const configureStore = () => {

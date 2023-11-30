@@ -5,12 +5,28 @@ import { IconButton } from '@mui/material';
 
 export const CardWrapper = styled('div') `
     width: 100%;
-    height: 192px;
     display: flex;
+    border-bottom: 1px solid  ${(props) => props.theme.palette.background.gray};
+    padding-bottom: 48px;
+
+    @media (max-width: 580px) {
+        flex-direction: column;
+    };
+`
+
+export const ProductInfoBlock = styled('div') `
+    width: 70%;
+    display: flex;
+    padding-right: 20px;
+
+    @media (max-width: 580px) {
+        width: 100%;
+        padding: 0;
+    };
 `
 
 export const ImageBlock = styled('div') `
-    width: 25%;
+    width: 40%;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -25,7 +41,7 @@ export const ProductImage = styled('img') `
 `
 
 export const InfoBlock = styled('div') `
-    width: 55%;
+    width: 60%;
     height: 100%;
     padding-left: 32px;
     display: flex;
@@ -71,11 +87,22 @@ export const Quantity = styled('div') `
     color: ${(props) => props.theme.palette.system.primary};
 `
 
+export const PriceDeleteBlock = styled('div') `
+    width: 30%;
+    display: flex;
+
+    @media (max-width: 580px) {
+        width: 100%;
+        padding-top: 30px;
+        justify-content: space-between;
+    };
+`
+
 export const PriceBlock = styled('div') `
-    width: 55%;
+    width: 80%;
     height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 `
 
@@ -85,14 +112,16 @@ export const ProductPrice = styled('div') `
     color: ${(props) => props.theme.palette.system.primary};
 `
 
-
-
 export const DeleteBlock = styled('div') `
-    width: 10%;
+    width: 20%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 580px) {
+        width: auto;
+    };
 `
 
 

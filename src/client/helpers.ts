@@ -1,3 +1,6 @@
+import { Ref } from "react";
+import { useMediaQuery } from "./hooks/useMediaQuery";
+
 export const nameValidator = (displayName: string) => {
     if (!displayName) {
         return "Please enter your name";

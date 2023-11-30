@@ -25,14 +25,3 @@ export const getNewProductsAsync = (page?: number) => {
         dispatch(productsActions.getNewProducts(data.books));
     };
 };
-
-const searchProducts = async(search?: any) => {
-    return await productsApi.searchProduct(search)
-};
-
-export const searchProductsAsync = (search?: any) => {
-    return async (dispatch: Dispatch) => {
-        const { data } = await searchProducts(search);
-        dispatch(productsActions.getProducts(data.books));
-    } 
-};

@@ -32,11 +32,13 @@ export const cartReducer = (
             };
         case actionTypesEnum.PLUS_PRODUCT:
             return {...state,
-                inCartProducts: [...state.inCartProducts.map((item) => item.isbn13 === action.payload.isbn13 ? {...item, qty: item.qty + 1} : item)]
+                inCartProducts: [...state.inCartProducts.map((item) => item.isbn13 === action.payload.isbn13 ? {...item, qty: item.qty + 1} : item)],
+                totalPrice: state.totalPrice + +(action.payload.price).replace('$', ''),
             };
         case actionTypesEnum.MINUS_PRODUCT:
             return {...state,
-                inCartProducts: [...state.inCartProducts.map((item) => ((item.isbn13 === action.payload.isbn13) && item.qty > 1)  ? {...item, qty: item.qty - 1} : item)]
+                inCartProducts: [...state.inCartProducts.map((item) => ((item.isbn13 === action.payload.isbn13) && item.qty > 1)  ? {...item, qty: item.qty - 1} : item)],
+                totalPrice: state.totalPrice - +(action.payload.price).replace('$', ''),
             };
         default: 
             return state;

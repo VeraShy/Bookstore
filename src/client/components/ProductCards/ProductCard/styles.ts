@@ -23,21 +23,29 @@ export const ProductImage = styled('img') `
 
 export const InfoBlock = styled('div') `
     width: 100%;
-    display: grid;
-    grid-template-rows: 85px 75px 30px;
-`
-
-export const ProductTitle = styled('div') `
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding-top: 20px;
 `
 
+export const ProductTitle = styled('div') `
+    height: 65px;
+    overflow: hidden;
+`
+
 export const ProductDescription = styled('div') `
+    width: 100%;
+    height: 60px;
+    overflow: hidden;
     font-family: 'Inter', sans-serif;
     font-size: 16px;
     color: ${(props) => props.theme.palette.system.secondary};
 `
 
 export const ProductPrice = styled('div') `
+    min-height: 32px;
+    height: max-content;
     font-family: 'Bebas Neue', sans-serif;
     font-size: 24px;
     color: ${(props) => props.theme.palette.system.primary};

@@ -11,7 +11,7 @@ import { useTypedSelector } from '../../../store/Hooks/useTypedSelector';
 const ResetPasswordPage = () => {
     const [email, setEmail] = useState('');
     const { resetPassword } = useActions();
-    const { isResetEmailSent, resetPasswordEmail } = useTypedSelector(state => state.session);
+    const { isResetEmailSent } = useTypedSelector(state => state.account);
     const navigate = useNavigate();
 
     const handleSendResetEmail = (event: React.ChangeEvent<HTMLInputElement>) => {

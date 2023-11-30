@@ -3,12 +3,19 @@ import { builtinModules } from 'module';
 
 export const PageWrapper = styled('div') `
     width: 100%;
-    height: 100%;
     padding: 72px 0;
+
+    @media (max-width: 580px) {
+        padding: 56px 0;
+    };
 `
 
 export const PageTitle = styled('div') `
     padding: 20px 0 48px 0;
+
+    @media (max-width: 580px) {
+        padding-bottom: 28px;
+    };
 `
 
 export const PageContent = styled('div') `
@@ -33,10 +40,14 @@ export const InputBlock = styled('div') `
     align-items: flex-end;
     padding: 30px 0 0 0;
     column-gap: 32px;
+
+    @media (max-width: 830px) {
+        flex-direction: column;
+    };
 `
 
 export const InputGroup = styled('div') `
-    width: 50%;
+    width: calc((100% - 32px) / 2);
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -44,6 +55,10 @@ export const InputGroup = styled('div') `
         font-size: 16px;
         font-weight: 600;
     }
+
+    @media (max-width: 830px) {
+        width: 100%;
+    };
 `
 
 export const LabelWithButton = styled('div') `
@@ -97,8 +112,13 @@ export const ButtonsBlock = styled('div') `
 
 export const ButtonWrapper = styled('div') `
     width: 257px;
+
+    @media (max-width: 830px) {
+        width: calc((100% - 32px) / 2)
+    };
 `
 export const ErrorMessage = styled('div') `
+    height: 20px;
     color: red;
     font-size: 14px;
     margin-top: -10px;

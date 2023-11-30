@@ -9,24 +9,36 @@ export const CardWrapper = styled('div') `
 
 export const ProductTitle = styled('div') `
     padding: 20px 0 48px 0;
+
+    @media (max-width: 580px) {
+        padding: 20px 0 38px 0;
+    };
 `
 
 export const CardContent = styled('div') `
     width: 100%;
-    height: 100%;
+    height: max-content;
     display: flex;
     column-gap: 128px;
     margin-bottom: 70px;
+
+    @media (max-width: 830px) {
+        flex-direction: column;
+    };
 `
 
 export const ImageBlock = styled('div') `
     width: 49%;
-    height: 472px;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: ${(props) => props.theme.palette.additional.orange};
     position: relative;
+
+    @media (max-width: 830px) {
+        width: 100%;
+    };
 `
 
 export const ProductImage = styled('img') `
@@ -49,10 +61,15 @@ export const FavsButton = styled('div') `
 
 export const InfoBlock = styled('div') `
     width: 40%;
+    height: max-content;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border-top: 1px solid ${(props) => props.theme.palette.background.gray};
+
+    @media (max-width: 830px) {
+        width: 100%;
+    };
 `
 
 export const PriceRatingInfo = styled('div') `
@@ -77,7 +94,7 @@ export const ProductRating = styled('div') `
 `
 
 export const ProductInfo = styled('ul') `
-
+    width: 100%;
 `
 
 export const ProductInfoCategory = styled('li') `
@@ -85,6 +102,11 @@ export const ProductInfoCategory = styled('li') `
     font-family: 'Inter', sans-serif;
     font-size: 16px;
     line-height: 32px;
+
+    @media (max-width: 400px) {
+        flex-direction: column;
+        margin-bottom: 10px;
+    };
 `
 
 export const CategoryName = styled('div') `
@@ -96,6 +118,10 @@ export const CategoryValue = styled('div') `
     width: 60%;
     text-align: end;
     color: ${(props) => props.theme.palette.system.primary};
+
+    @media (max-width: 400px) {
+        text-align: start;
+    };
 `
 
 export const MoreButton = styled('div') `

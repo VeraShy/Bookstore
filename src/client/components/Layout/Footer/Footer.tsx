@@ -1,12 +1,14 @@
 import React from 'react';
-import { FooterWrapper } from './styles';
+import { StyledFooter, FooterWrapper } from './styles';
 
 const Footer = () => {
     return (
-        <FooterWrapper>
-            <div>©2022 Bookstore</div>
-            <div>All rights reserved</div>
-        </FooterWrapper>
+        <StyledFooter>
+            <FooterWrapper>
+                <div>©2022 Bookstore</div>
+                <div>All rights reserved</div>
+            </FooterWrapper>
+        </StyledFooter>
     );
 };
 

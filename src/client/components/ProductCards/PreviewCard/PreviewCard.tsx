@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { IBookInfo } from '../../../../store/types';
 import Title from '../../TextComponents/Title/Title';
-import { CardWrapper , ImageBlock , ProductImage , InfoBlock , ProductTitle , ProductDescription , ProductPrice } from './styles';
+import { CardWrapper , ImageBlock , ProductImage , InfoBlock , ProductTitle , ProductDescription } from './styles';
 
 const PreviewCard: FC<{ book: IBookInfo }> = ({ book }) => { 
     return (

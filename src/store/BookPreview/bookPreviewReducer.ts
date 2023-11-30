@@ -3,7 +3,7 @@ import { actionTypesEnum } from "./bookPreviewActions";
 
 type defaultStateType = {
     openedPopup: boolean,
-    popupInfo: null,
+    popupInfo: IBookInfo | null,
 };
 
 const defaultState: defaultStateType = {
@@ -13,15 +13,16 @@ const defaultState: defaultStateType = {
 
 export const bookPreviewReducer = (
     state = defaultState,
-    action: baseActionType<actionTypesEnum> | baseActionTypeWithPayload <actionTypesEnum, IBookInfo>
-) => {
+    action: baseActionType<actionTypesEnum.OPEN_POPUP> | 
+            baseActionType<actionTypesEnum.CLOSE_POPUP> | 
+            baseActionTypeWithPayload <actionTypesEnum.GET_INFO, IBookInfo>
+): defaultStateType => {
     switch(action.type) {
         case actionTypesEnum.OPEN_POPUP:
             return {...state, openedPopup: true};
         case actionTypesEnum.CLOSE_POPUP: 
             return {...state, openedPopup: false};
         case actionTypesEnum.GET_INFO:
-            //@ts-ignore
             return {...state, popupInfo: action.payload}
         default:
             return state;       

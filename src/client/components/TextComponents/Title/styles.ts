@@ -61,6 +61,4 @@ export const StyledTitle = styled('div') `
             text-decoration: underline; 
         }
     };
-
-
 `

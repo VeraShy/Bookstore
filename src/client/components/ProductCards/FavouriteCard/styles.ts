@@ -4,8 +4,13 @@ import { FavoriteBorder , Favorite } from '@mui/icons-material';
 
 export const CardWrapper = styled('div') `
     width: 100%;
-    height: 192px;
     display: flex;
+    border-bottom: 1px solid  ${(props) => props.theme.palette.background.gray};
+    padding-bottom: 48px;
+
+    @media (max-width: 580px) {
+        flex-direction: column;
+    };
 `
 
 export const ImageBlock = styled('div') `
@@ -15,12 +20,30 @@ export const ImageBlock = styled('div') `
     justify-content: center;
     align-items: center;
     background-color: ${(props) => props.theme.palette.additional.blue};
+    position: relative;
+
+    @media (max-width: 580px) {
+        width: 100%;
+        margin-bottom: 20px;
+    };
 `
 
 export const ProductImage = styled('img') `
     width: 165px;
     height: 190px;
     display: block;
+`
+
+export const FavsButton = styled('div') `
+    width: 56px;
+    height: 56px;
+    position: absolute;
+    top: 0;
+    left: calc(100% - 56px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${(props) => props.theme.palette.system.primary};  
 `
 
 export const InfoBlock = styled('div') `
@@ -31,6 +54,11 @@ export const InfoBlock = styled('div') `
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+
+    @media (max-width: 580px) {
+        width: 100%;
+        padding: 0;
+    };
 `
 
 export const ProductTitle = styled('div') `
@@ -50,6 +78,14 @@ export const PriceRatingInfo = styled('div') `
     justify-content: space-between;
     align-items: center;
     padding-right: 200px;
+
+    @media (max-width: 830px) {
+        padding-right: 70px;
+    };
+
+    @media (max-width: 580px) {
+        padding-right: 0;
+    };
 `
 
 export const ProductPrice = styled('div') `
@@ -59,7 +95,7 @@ export const ProductPrice = styled('div') `
 `
 
 export const ProductRating = styled('div') `
-
+    
 `
 
 export const LikeBlock = styled('div') `

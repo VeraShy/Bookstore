@@ -7,7 +7,6 @@ import { userRoutes } from './client/routes/userRoutes';
 import MainPage from './client/pages/MainPage/MainPage';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './firebaseConfig';
-import { useTypedSelector } from './store/Hooks/useTypedSelector';
 import { useActions } from './store/Hooks/useActions';
 import { auth } from './firebaseConfig';
 import PrivateRoute from './client/routes/PrivateRoute';
@@ -15,7 +14,6 @@ import PrivateRoute from './client/routes/PrivateRoute';
 function App() {
   const colorTheme = createColorTheme();
   const { authorizeUser } = useActions();
-  const user = auth.currentUser;
   
   initializeApp(firebaseConfig);
 

@@ -8,7 +8,6 @@ type BtnProps = {
 const Button = styled('button')<BtnProps>`
     width: 100%;
     height: 56px;
-    
     border: none;
     cursor: pointer;
     font-family: 'Bebas Neue', sans-serif;

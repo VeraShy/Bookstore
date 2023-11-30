@@ -1,19 +1,18 @@
 import React, { FC, useState , useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import BackLink from '../../components/Buttons/BackLinkButton/BackLink';
 import Title from '../../components/TextComponents/Title/Title';
-import CustomInput from '../../components/CustomInput/CustomInput';
-import CustomInputAsDiv from '../../components/CustomInput/CustomInputAsDiv';
 import CustomButton from '../../components/Buttons/CustomButton/CustomButton';
 import Alert from '@mui/material/Alert';
 import { useTypedSelector } from '../../../store/Hooks/useTypedSelector';
 import { auth } from '../../../firebaseConfig';
 import { User } from 'firebase/auth';
 import { useActions } from '../../../store/Hooks/useActions';
-import SignUpPage from '../SignUpPage/SignUpPage';
-import { UserDataType , AuthErrorType } from '../../../store/types';
+import { AuthErrorType } from '../../../store/types';
 import { passwordValidator } from '../../helpers';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { useMediaQueries } from '../../hooks/useMediaQuery';
+import SignUpPage from '../RegistrationPage/RegistrationPage';
 import { PageWrapper, PageTitle, PageContent, FormContent, FormSection, LabelWithButton, InputBlock, InputGroup, InputField, TextField,
     EditButton, ButtonsSection, ButtonsBlock, ButtonWrapper, ErrorMessage } from './styles';
 
@@ -39,13 +38,16 @@ const UserAccountPage = () => {
     const [newPassword, setNewPassword] = useState(currentUserData.newPassword);
     const [openNameChange, setOpenNameChange] = useState(false);
     const [openPasswordChange, setOpenPasswordChange] = useState(false);
-    //const [accountError, setAccountError] = useState(accountErrors);
-    const { userSignOut , changeUserName , changePassword } = useActions();
-    const { errorMessage } = useTypedSelector(state => state.errors);
+    const [accountError, setAccountError] = useState(accountErrors);
+    const errorMessage = useTypedSelector(state => state.account.passwordChangeError);
+    const { userSignOut , changeUserName , changePassword , resetAccountStatus} = useActions();
+    const { isNameChangeSuccess , isPasswordChangeSuccess } = useTypedSelector(state => state.account);
+    const isSiggnedIn = useTypedSelector(state => state.signIn.isSignedIn);
+    const { mobile , tablet , laptop } = useMediaQueries();
+    const navigate = useNavigate();
 
     const user: User | null = auth.currentUser;
-    const { isNameChanged , isPasswordChanged } = useTypedSelector(state => state.session);
-
+   
     const openNameChangeInput = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
         setOpenNameChange(true);
@@ -56,40 +58,40 @@ const UserAccountPage = () => {
         setOpenPasswordChange(true);
     };
 
-    // const validateInput = () => {
-    //     const passwordError = passwordValidator(currentPassword);
-    //     const newPasswordError = passwordValidator(newPassword);
-
-    //     if(errorMessage && errorMessage === "Firebase: Error (auth/invalid-login-credentials).") {
-    //         setAccountError({
-    //             ...accountErrors,
-    //             password: 'You have entered an incorrect password',
-    //         });
-    //         return;
-    //     } else {
-    //         setAccountError({
-    //             ...accountErrors,
-    //             password: passwordError,
-    //             newPassword: newPasswordError,
-    //         });
-    //         return;
-    //     };
-    // };
-
-    const validateInput = () => {
+    const validateAccountInput = () => {
         const passwordError = passwordValidator(currentPassword);
         const newPasswordError = passwordValidator(newPassword);
 
+        setAccountError({
+            ...accountErrors,
+            password: passwordError,
+            newPassword: newPasswordError,
+        });
+        
+        if(currentPassword && !newPassword) {
+            setAccountError({
+                ...accountErrors,
+                newPassword: 'Please enter new password',
+            });
+
+            return
+        };
+    };
+
+    const showAccountServerErrors = () => {
         if(errorMessage && errorMessage === "Firebase: Error (auth/invalid-login-credentials).") {
-            accountErrors.password = 'You have entered an incorrect password';
-        } else if(errorMessage && errorMessage === "Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).") {
-            accountErrors.newPassword = 'Too many attempts, please try again later';
-        } else {
-            accountErrors.password = passwordError;
-            accountErrors.newPassword = newPasswordError;
+            setAccountError({
+                ...accountErrors,
+                password: 'You have entered an incorrect password',
+            });
+        } else if (errorMessage && errorMessage === "Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).") {
+            setAccountError({
+                ...accountErrors,
+                password: 'Account has been temporarily disabled due to many failed login attempts. Try again later.',
+            });
         };
 
-        return accountErrors;
+        return accountError;
     };
 
     const handleSaveChanges = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,14 +99,44 @@ const UserAccountPage = () => {
 
         if(newName && !currentPassword && !newPassword) {
             changeUserName(newName);
-            setOpenNameChange(false);
         };
 
         if(currentPassword && newPassword) {
-            validateInput();
+            validateAccountInput();
             changePassword(currentPassword, newPassword);
         };
+
+        if(newName && currentPassword && newPassword) {
+            changeUserName(newName);
+            validateAccountInput();
+            changePassword(currentPassword, newPassword);
+        };
+
+        userSignOut();
     };
+
+    useEffect(() => {
+        if(!isPasswordChangeSuccess && errorMessage) {
+            showAccountServerErrors();
+        };
+
+        if(isNameChangeSuccess) {
+            setOpenNameChange(false);
+            resetAccountStatus();
+        };
+
+        if(isPasswordChangeSuccess) {
+            setOpenPasswordChange(false);
+            resetAccountStatus();
+        };
+
+        if(isNameChangeSuccess && isPasswordChangeSuccess) {
+            setOpenNameChange(false);
+            setOpenPasswordChange(false);
+            resetAccountStatus();
+        };
+
+    }, [isNameChangeSuccess, isPasswordChangeSuccess, errorMessage]);
 
     const clearInputs = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
@@ -112,19 +144,19 @@ const UserAccountPage = () => {
         setNewPassword('');
         setOpenNameChange(false);
         setOpenPasswordChange(false);
-        console.log('clear')
     };
 
     const handleSignOut = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         userSignOut();
+        //navigate('/');
     };
 
     return user ? (
         <PageWrapper>
             <BackLink />
             <PageTitle>
-                <Title variant='h1'>account</Title>
+                { mobile ? <Title variant='h1'>account</Title> : <Title variant='h2'>account</Title> }
             </PageTitle>
 
             <PageContent>
@@ -138,7 +170,8 @@ const UserAccountPage = () => {
                                     <EditButton onClick={event => openNameChangeInput(event)}><EditOutlinedIcon color='disabled'/></EditButton>
                                 </LabelWithButton>
                                 <TextField>{user.displayName}</TextField>
-                                {isNameChanged && (<Alert severity="success">Your name has been changed!</Alert>)} 
+                                <ErrorMessage>{}</ErrorMessage> 
+                                {isNameChangeSuccess && (<Alert severity="success">Your name has been changed!</Alert>)}  
                             </InputGroup>
                             
                             {openNameChange && (
@@ -148,7 +181,7 @@ const UserAccountPage = () => {
                                         type = 'text'
                                         value = {newName}
                                         onChange = {event => setNewName(event.target.value)}/>
-                                    <ErrorMessage>{accountErrors.displayName}</ErrorMessage> 
+                                    <ErrorMessage>{accountError.displayName}</ErrorMessage> 
                                 </InputGroup>
                             )}                           
                         </InputBlock>
@@ -174,7 +207,8 @@ const UserAccountPage = () => {
                                     placeholder='Enter your current password'
                                     value = {currentPassword}
                                     onChange = {event => setCurrentPassword(event.target.value)} />
-                                <ErrorMessage>{accountErrors.password}</ErrorMessage>
+                                <ErrorMessage>{accountError.password}</ErrorMessage>
+                                {isPasswordChangeSuccess && (<Alert severity="success">Password has been changed!</Alert>)} 
                             </InputGroup>
 
                             {openPasswordChange && 
@@ -185,15 +219,13 @@ const UserAccountPage = () => {
                                         placeholder='Enter new password'
                                         value = {newPassword}
                                         onChange = {event => setNewPassword(event.target.value)} />
-                                    <ErrorMessage>{accountErrors.newPassword}</ErrorMessage>   
+                                    <ErrorMessage>{accountError.newPassword}</ErrorMessage>   
                                 </InputGroup>
                                 )}
                         </InputBlock>
                     </FormSection>
                     
                     <ButtonsSection>
-                        
-                        {isPasswordChanged && (<Alert severity="success">Your password has been changed!</Alert>)}
                         <ButtonsBlock>
                             <ButtonWrapper>
                                 <CustomButton 
@@ -221,12 +253,10 @@ const UserAccountPage = () => {
                             </ButtonWrapper>
                         </ButtonsBlock>
                     </ButtonsSection>                               
-                </FormContent>
-
-                                                      
+                </FormContent>                                                     
             </PageContent>            
         </PageWrapper>
-    ) : <SignUpPage /> ;
+    ) : (<SignUpPage />);
 };
 
 export default UserAccountPage;

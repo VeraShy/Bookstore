@@ -15,14 +15,14 @@ export const PopupBackground = styled('div') `
 `
 
 export const PopupWrapper = styled('div') `
-    width: 700px;
-    height: max-content;
+    max-width: 700px;
+    width: 90%;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: ${props => props.theme.palette.background.main};
     position: absolute;
-    display: flex;
     padding: 25px 40px 40px 40px;
 `
 
@@ -38,5 +38,6 @@ export const CloseButton = styled('button') `
 `
 
 export const BookPreviewContent = styled('div') `
-    
+    width: 100%;
+    height: auto;
 `

@@ -17,13 +17,14 @@ const handleSignUp = async (userData: UserDataType) => {
 
 export const userSignUp = (userData: UserDataType) => {
     return (dispatch: Dispatch) => {
-        handleSignUp(userData).then((data: UserCredential) => {
+        handleSignUp(userData)
+        .then((data: UserCredential) => {
             if(data.user.uid) {
-                dispatch(signUpActions.clearSignUpErrorMessage());
                 dispatch(signUpActions.signUpSuccess(data));
             };  
-        }).catch ((error: any) => {
-            dispatch(signUpActions.showSignUpErrorMessage(error.message));
+        })
+        .catch ((error: any) => {
+            dispatch(signUpActions.signUpFail(error.message));
             console.log(error);
         })
     };

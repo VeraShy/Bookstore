@@ -18,5 +18,3 @@ export const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
 export const auth = getAuth();
 export {createUserWithEmailAndPassword , updateProfile , onAuthStateChanged , signInWithEmailAndPassword , signOut};
-
-//auth.setPersistence(auth, browserLocalPersistence);

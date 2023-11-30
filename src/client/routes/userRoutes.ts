@@ -6,10 +6,13 @@ import AllBooksPage from '../pages/AllBooksPage/AllBooksPage';
 import BookPage from '../pages/BookPage/BookPage';
 import FavouritesPage from '../pages/FavouritesPage/FavouritesPage';
 import CartPage from '../pages/CartPage/CartPage';
-import SignUpPage from '../pages/SignUpPage/SignUpPage';
+import SignUpPage from '../pages/RegistrationPage/RegistrationPage';
 import RegistrationConfirmPage from '../pages/RegistrationConfirmPage/RegistrationConfirmPage';
 import UserAccountPage from '../pages/UserAccountPage/UserAccountPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage/ResetPasswordPage';
+import SearchResultsPage from '../pages/SearchResultsPage/SearchResultsPage';
+import CheckoutPage from '../pages/CheckoutPage/CheckoutPage';
+import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 
 type UserRoutesType = {
     id: string | number,
@@ -34,14 +37,14 @@ export const userRoutes: UserRoutesType[] = [
         path: '/new',
         Component: NewBooksPage,
         title: 'New Releases',
-        navLink: true,
+        navLink: false,
     },
     {
         id: 3,
         path: '/all-books',
         Component: AllBooksPage,
         title: 'All Books',
-        navLink: true,
+        navLink: false,
     },
     {
         id: 4,
@@ -63,18 +66,17 @@ export const userRoutes: UserRoutesType[] = [
         Component: CartPage,
         title: 'Cart',
         navLink: true,
-        strict: true,
     },
     {
         id: 7,
-        path: '/sign-up',
+        path: '/registration',
         Component: SignUpPage,
-        title: 'Sign Up',
-        navLink: true,
+        title: 'Registration',
+        navLink: false,
     },
     {
         id: 8,
-        path: '/sign-up/registration-confirm',
+        path: '/registration/registration-confirm',
         Component: RegistrationConfirmPage,
         title: 'Registration Confirm',
         navLink: false,
@@ -94,11 +96,26 @@ export const userRoutes: UserRoutesType[] = [
         title: 'Reset Password',
         navLink: false,
     },
-    // {
-    //     // id: 99,
-    //     // path: '*',
-    //     // Component: NotFoundPage,
-    //     // navLink: false,
-    // },
+    {
+        id: 11,
+        path: '/search/:value',
+        Component: SearchResultsPage,
+        title: 'Search Results',
+        navLink: false,
+    },
+    {
+        id: 12,
+        path: '/cart/checkout',
+        Component: CheckoutPage,
+        title: 'Free e-books',
+        navLink: false,
+        strict: true,
+    },
+    {
+        id: 99,
+        path: '*',
+        Component: NotFoundPage,
+        navLink: false,
+    },
 
 ]

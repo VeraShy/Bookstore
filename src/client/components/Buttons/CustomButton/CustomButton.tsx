@@ -23,7 +23,7 @@ const CustomButton: FC<ICustomButtonProps> = ({
 
     return (
         <Button $active = {isActive} onClick={onBtnClick}>
-           {content}
+            {content}
         </Button>
     );
 };

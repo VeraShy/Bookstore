@@ -1,15 +1,16 @@
 import React, { FC, useEffect } from 'react';
-import { Navigate , Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTypedSelector } from '../../../store/Hooks/useTypedSelector';
 import { useActions } from '../../../store/Hooks/useActions';
-import { UserDataType } from '../../../store/types';
 import Title from '../../components/TextComponents/Title/Title';
 import TextMessage from '../../components/TextComponents/TextMessage/TextMessage';
+import { useMediaQueries } from '../../hooks/useMediaQuery';
 import { PageWrapper , PageTitle , PageContent } from './styles';
 
 const RegistrationConfirmPage = () => {
     const { userSignUpData } = useTypedSelector(state => state.signUp);
     const { resetSignUpStatus } = useActions();
+    const { mobile , tablet , laptop } = useMediaQueries();
 
     useEffect(() => {
         resetSignUpStatus();
@@ -18,7 +19,7 @@ const RegistrationConfirmPage = () => {
     return (
         <PageWrapper>
             <PageTitle>
-                <Title variant='h1'>Congratulations, {userSignUpData?.user.displayName}!</Title>
+                { mobile ? <Title variant='h1'>Congratulations, {userSignUpData?.user.displayName}!</Title> : <Title variant='h2'>Congratulations, {userSignUpData?.user.displayName}!</Title> }
             </PageTitle>
 
             <PageContent>
